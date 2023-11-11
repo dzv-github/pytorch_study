@@ -80,3 +80,5 @@ with torch.no_grad():
     print('Predicted: ', predicted.detach().cpu().numpy())
     print('Real value: ', Y.cpu().numpy())
     print('Accuracy: ', accuracy.item())
+
+#References: https://wikidocs.net/61010
