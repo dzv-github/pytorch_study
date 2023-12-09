@@ -26,6 +26,7 @@ softmax=nn.Softmax()
 criterion=nn.CrossEntropyLoss().to(device)
 epoch=10001
 
+#############################################################
 model=nn.Sequential(
     nn.Linear(4,20,bias=True),
     nn.ReLU(),
@@ -44,6 +45,7 @@ model=nn.Sequential(
     nn.Linear(20,3,bias=True),
     softmax,
 ).to(device)
+#############################################################
 
 optimizer=torch.optim.SGD(model.parameters(),lr=0.01)
 for step in range(epoch):
