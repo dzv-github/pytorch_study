@@ -6,4 +6,4 @@
 
 [CNN MNIST](https://github.com/dzv-github/pytorch_study/tree/main/CNN(MNIST))
 
-[vehicle_classification]()
+[vehicle_classification](https://github.com/dzv-github/pytorch_study/tree/main/vehicle_classification)
