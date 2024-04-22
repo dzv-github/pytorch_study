@@ -1,12 +1,11 @@
-﻿
 #include <iostream>
 #include<algorithm>
 #include<math.h>
 #include<cstdlib>
 #include<time.h>
 #include<map>
+#include<random>
 #include<vector>
-#define M_E 2.718
 
 using namespace std;
 
@@ -57,17 +56,21 @@ long double max(long double a, long double b) {
 	else return b;
 }
 
+random_device rd;
+mt19937 gen(rd());
+uniform_real_distribution<double>dis(0,1);
+
 map<weight_location, long double>weight;
 map<node_location, long double>bias;
-map<node_location, vector<node_location>>prior_nodes;
-map<node_location, vector<node_location>>next_nodes;
+map<node_location, vector<node_location> >prior_nodes;
+map<node_location, vector<node_location> >next_nodes;
 map<node_location, node_values>node; //pair<net,out>
 map<node_location, long double>delta;
 vector<int>network_size;
 vector<string>act_func;
 vector<bool>bias_usage;
 
-int epoch=10000;
+int epoch=1000;
 int input_size = 4;
 long double learning_rate = 0.1;
 
@@ -83,7 +86,7 @@ void connect() {
 			if (i != network_size.size() - 1) {
 				for (int k = 0;k < network_size[i + 1];k++) {
 					next_nodes[{i, j}].push_back({ i + 1,k });
-					weight[{i, j, i + 1, k}] = abs(rand()%10)*0.1;
+					weight[{i, j, i + 1, k}] = dis(gen);
 				}
 			}
 
@@ -97,12 +100,18 @@ void connect() {
 	return;
 }
 
+
+
 long double ReLU(long double x) {
 	return max(0, x);
 }
 long double sigmoid(long double x) {
 	return 1 / (1 + exp(-x));
 }
+
+
+
+long double MSELoss(long double )
 
 void perceptron(int layer, int column,string activative_func,bool set_bias) {
 	long double result = 0;
@@ -157,15 +166,11 @@ void forward_Pass(int n) {
 	return;
 }
 
-void delta_init() {
-}
-
-void backward() {
+void backward(string loss_fuction) {
+	
 }
 int main()
 {
-	srand(time(NULL));
-
 	sequential();
 
 	for (int step = 0;step < epoch;step++) {
@@ -174,11 +179,10 @@ int main()
 			output[i] = node[{input_size-1, 0}].out;
 		}
 		
-		backward();
-		delta_init();
-		printf("%f %f %f %f\n", output[0], output[1], output[2], output[3]);
+		backward("MSELoss");
+		if(step%100==0)
+			cout<<output[0]<<" "<<output[1]<<" "<<output[2]<<" "<<output[3]<<endl;
 	}
-
-	printf("%f", node[{3, 0}].out);
+	cout << output[3] << " " << correct_output[2];
 	return 0;
 }
