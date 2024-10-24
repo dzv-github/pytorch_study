@@ -103,8 +103,7 @@ void connect() {
 			if (i != network_size.size() - 1) {
 				for (int k = 0;k < network_size[i + 1];k++) {
 					next_nodes[{i, j}].push_back({ i + 1,k });
-					weight[{i, j, i + 1, k}] = temp_weight;
-					temp_weight += 0.05;
+					weight[{i, j, i + 1, k}] = dis(gen);
 				}
 				
 			}
@@ -116,8 +115,7 @@ void connect() {
 			}
 		}
 
-		bias[{i, i + 1}] = temp_weight;
-		temp_weight += 0.05;
+		bias[{i, i + 1}] = dis(gen);
 	}
 
 	return;
@@ -160,7 +158,7 @@ void sequential() {
 	linear(2, true);
 	act_func.push_back("sigmoid");
 
-	linear(2, true);
+	linear(10, true);
 	act_func.push_back("sigmoid");
 
 	linear(2,true);
